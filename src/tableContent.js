@@ -59,6 +59,7 @@ const DayNumber = styled.div`
       : isSaturday(props.date)
       ? "#61b9d1"
       : "black"};
+  background-color: transparent;
 
   p {
     margin: 0;

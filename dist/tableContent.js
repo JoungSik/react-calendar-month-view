@@ -46,7 +46,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n  width: 30px;\n  height: 30px;\n  background-color: inherit;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin: ", ";\n  left: ", ";\n  top: ", ";\n  right: 0;\n  color: ", ";\n\n  p {\n    margin: 0;\n    font-weight: ", ";\n  }\n"]);
+  var data = _taggedTemplateLiteral(["\n  width: 30px;\n  height: 30px;\n  background-color: inherit;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin: ", ";\n  left: ", ";\n  top: ", ";\n  right: 0;\n  color: ", ";\n  background-color: transparent;\n\n  p {\n    margin: 0;\n    font-weight: ", ";\n  }\n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
