@@ -3,9 +3,9 @@
  * @author Alwyn Tan
  */
 
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const Th = styled.th`
   font-weight: 500;
@@ -15,16 +15,16 @@ const Th = styled.th`
   }
 `;
 
-const DAYS = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default class TableHeaders extends Component {
   static propTypes = {
-    dayNameTextStyle: PropTypes.object
+    dayNameTextStyle: PropTypes.object,
   };
 
   _renderDays = () => {
     const { dayNameTextStyle } = this.props;
-    return DAYS.map(day => (
+    return DAYS.map((day) => (
       <Th key={day}>
         <p style={dayNameTextStyle}>{day}</p>
       </Th>

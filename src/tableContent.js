@@ -3,24 +3,32 @@
  * @author Alwyn Tan
  */
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import moment from 'moment';
-import { COLORS, fadeIn } from './constants';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import moment from "moment";
+import { COLORS, fadeIn } from "./constants";
+
+const isSunday = (date) => date === "Sunday";
+const isSaturday = (date) => date === "Saturday";
 
 const TD = styled.td`
   width: 14.28571429%;
   position: relative;
-  background-color: ${props =>
-    props.smallCalendar ? 'white' : props.isToday ? COLORS.lightgray : COLORS.verylightgray};
+  background-color: ${(props) =>
+    props.smallCalendar
+      ? "white"
+      : props.isToday
+      ? COLORS.lightgray
+      : COLORS.verylightgray};
   border: ${`1px solid lightgray`};
-  border-width: ${props => (props.smallCalendar && props.isToday ? '0.1em' : '0px')};
+  border-width: ${(props) =>
+    props.smallCalendar && props.isToday ? "0.1em" : "0px"};
   animation: ${fadeIn} 0.5s ease;
   box-sizing: border-box;
 
   :after {
-    content: '';
+    content: "";
     display: block;
     margin-top: 100%;
   }
@@ -41,14 +49,20 @@ const DayNumber = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: ${props => (props.smallCalendar ? 0 : '6% 10% 0 0')};
-  left: ${props => (props.smallCalendar ? 'calc(50% - 14px)' : 'unset')};
-  top: ${props => (props.smallCalendar ? 'calc(50% - 14px)' : 0)};
+  margin: ${(props) => (props.smallCalendar ? 0 : "6% 10% 0 0")};
+  left: ${(props) => (props.smallCalendar ? "calc(50% - 14px)" : "unset")};
+  top: ${(props) => (props.smallCalendar ? "calc(50% - 14px)" : 0)};
   right: 0;
+  color: ${(props) =>
+    isSunday(props.date)
+      ? "#f26f63"
+      : isSaturday(props.date)
+      ? "#61b9d1"
+      : "black"};
 
   p {
     margin: 0;
-    font-weight: ${props => (props.isToday ? 800 : 400)};
+    font-weight: ${(props) => (props.isToday ? 800 : 400)};
   }
 `;
 
@@ -60,25 +74,27 @@ export default class TableContent extends Component {
     renderDay: PropTypes.func,
     dayTextStyle: PropTypes.object,
     activeDayStyle: PropTypes.object,
-    inactiveDayStyle: PropTypes.object
+    inactiveDayStyle: PropTypes.object,
   };
 
   static defaultProps = {
-    renderDay: () => {}
+    renderDay: () => {},
   };
 
   // renders the calendar days, split by weeks per calendar row
   _renderCalendar = () => {
     const { date } = this.props;
 
-    let currDayInMonth = moment(date).startOf('month');
-    let endOfMonth = moment(date).endOf('month');
+    let currDayInMonth = moment(date).startOf("month");
+    let endOfMonth = moment(date).endOf("month");
 
     const daysElementArray = [];
 
     while (currDayInMonth.isBefore(endOfMonth)) {
       daysElementArray.push(
-        <tr key={currDayInMonth.format()}>{this._renderByWeek(currDayInMonth)}</tr>
+        <tr key={currDayInMonth.format()}>
+          {this._renderByWeek(currDayInMonth)}
+        </tr>
       );
     }
 
@@ -87,8 +103,14 @@ export default class TableContent extends Component {
 
   // currDayInMonth is an object that will be mutated by this function!
   // as we render each day, we will increment the count by 1
-  _renderByWeek = currDayInMonth => {
-    const { smallCalendar, renderDay, dayTextStyle, activeDayStyle, inactiveDayStyle } = this.props;
+  _renderByWeek = (currDayInMonth) => {
+    const {
+      smallCalendar,
+      renderDay,
+      dayTextStyle,
+      activeDayStyle,
+      inactiveDayStyle,
+    } = this.props;
     const currentMonth = currDayInMonth.month();
 
     // these change when the while loop detects the first or last day of month
@@ -103,30 +125,42 @@ export default class TableContent extends Component {
       (daysToRender.length === 0 || currDayInMonth.isoWeekday() % 7 !== 0) &&
       currDayInMonth.month() <= currentMonth
     ) {
-      const isToday = currDayInMonth.diff(moment().startOf('day'), 'days') === 0;
+      const isToday =
+        currDayInMonth.diff(moment().startOf("day"), "days") === 0;
+      let date = Object.assign({}, currDayInMonth);
 
       daysToRender.push(
         <TD
-          key={currDayInMonth.format('DDMMYY')}
+          key={currDayInMonth.format("DDMMYY")}
           isToday={isToday}
           smallCalendar={smallCalendar}
           style={isToday ? activeDayStyle : inactiveDayStyle}
         >
           {renderDay(currDayInMonth.toISOString())}
-          <DayNumber isToday={isToday} smallCalendar={smallCalendar} style={dayTextStyle}>
-            <p>{currDayInMonth.format('D')}</p>
+          <DayNumber
+            isToday={isToday}
+            smallCalendar={smallCalendar}
+            date={moment(date).format("dddd")}
+            style={dayTextStyle}
+          >
+            <p>{currDayInMonth.format("D")}</p>
           </DayNumber>
         </TD>
       );
 
       // sets if the current day is the first or last week
-      if (currDayInMonth.diff(moment(currDayInMonth).startOf('month'), 'days') === 0) {
+      if (
+        currDayInMonth.diff(moment(currDayInMonth).startOf("month"), "days") ===
+        0
+      ) {
         isFirstWeek = true;
-      } else if (currDayInMonth.diff(moment(currDayInMonth).endOf('month'), 'days') === 0) {
+      } else if (
+        currDayInMonth.diff(moment(currDayInMonth).endOf("month"), "days") === 0
+      ) {
         isLastWeek = true;
       }
 
-      currDayInMonth.add(1, 'days');
+      currDayInMonth.add(1, "days");
     }
 
     if (isFirstWeek) {
@@ -134,7 +168,7 @@ export default class TableContent extends Component {
       for (let i = daysToRender.length; i < 7; i++) {
         daysToRender.unshift(
           <TD
-            key={currDayInMonth.format('M') + i}
+            key={currDayInMonth.format("M") + i}
             smallCalendar={smallCalendar}
             style={inactiveDayStyle}
           >
@@ -147,7 +181,7 @@ export default class TableContent extends Component {
       for (let i = daysToRender.length; i < 7; i++) {
         daysToRender.push(
           <TD
-            key={currDayInMonth.format('M') + i}
+            key={currDayInMonth.format("M") + i}
             smallCalendar={smallCalendar}
             style={inactiveDayStyle}
           >
