@@ -129,6 +129,7 @@ var TableContent = /*#__PURE__*/function (_Component) {
       var _this$props = _this.props,
           smallCalendar = _this$props.smallCalendar,
           renderDay = _this$props.renderDay,
+          onClickDay = _this$props.onClickDay,
           dayTextStyle = _this$props.dayTextStyle,
           activeDayStyle = _this$props.activeDayStyle,
           inactiveDayStyle = _this$props.inactiveDayStyle;
@@ -139,9 +140,10 @@ var TableContent = /*#__PURE__*/function (_Component) {
       var daysToRender = []; // Days rendered in a week must be at least 1, and we want to stop on the next sunday
       // Also, we want to make sure that we don't overshoot to the next month
 
-      while ((daysToRender.length === 0 || currDayInMonth.isoWeekday() % 7 !== 0) && currDayInMonth.month() <= currentMonth) {
+      var _loop = function _loop() {
         var isToday = currDayInMonth.diff((0, _moment["default"])().startOf("day"), "days") === 0;
         var date = Object.assign({}, currDayInMonth);
+        var dayNumber = (0, _moment["default"])(currDayInMonth).format("yyyy-MM-DD");
         daysToRender.push( /*#__PURE__*/_react["default"].createElement(TD, {
           key: currDayInMonth.format("DDMMYY"),
           isToday: isToday,
@@ -151,7 +153,10 @@ var TableContent = /*#__PURE__*/function (_Component) {
           isToday: isToday,
           smallCalendar: smallCalendar,
           date: (0, _moment["default"])(date).format("dddd"),
-          style: dayTextStyle
+          style: dayTextStyle,
+          onClick: function onClick() {
+            return onClickDay(dayNumber);
+          }
         }, /*#__PURE__*/_react["default"].createElement("p", null, currDayInMonth.format("D"))))); // sets if the current day is the first or last week
 
         if (currDayInMonth.diff((0, _moment["default"])(currDayInMonth).startOf("month"), "days") === 0) {
@@ -161,6 +166,10 @@ var TableContent = /*#__PURE__*/function (_Component) {
         }
 
         currDayInMonth.add(1, "days");
+      };
+
+      while ((daysToRender.length === 0 || currDayInMonth.isoWeekday() % 7 !== 0) && currDayInMonth.month() <= currentMonth) {
+        _loop();
       }
 
       if (isFirstWeek) {
@@ -205,11 +214,13 @@ _defineProperty(TableContent, "propTypes", {
   date: _propTypes["default"].instanceOf(_moment["default"]).isRequired,
   smallCalendar: _propTypes["default"].bool,
   renderDay: _propTypes["default"].func,
+  onClickDay: _propTypes["default"].func,
   dayTextStyle: _propTypes["default"].object,
   activeDayStyle: _propTypes["default"].object,
   inactiveDayStyle: _propTypes["default"].object
 });
 
 _defineProperty(TableContent, "defaultProps", {
-  renderDay: function renderDay() {}
+  renderDay: function renderDay() {},
+  onClickDay: function onClickDay() {}
 });

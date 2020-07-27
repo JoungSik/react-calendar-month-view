@@ -74,7 +74,7 @@ function _templateObject() {
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 var Container = _styledComponents["default"].div(_templateObject(), function (props) {
-  return props.width || '90%';
+  return props.width || "90%";
 });
 
 var Table = _styledComponents["default"].table(_templateObject2(), _constants.COLORS.gray);
@@ -100,7 +100,7 @@ var CalendarMonthView = /*#__PURE__*/function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      date: (0, _moment["default"])().startOf('month'),
+      date: (0, _moment["default"])().startOf("month"),
       // always set moment to the start of the month (days don't matter)
       smallCalendar: false // detects if the calendar should be rendered with the small calendar style
 
@@ -123,13 +123,13 @@ var CalendarMonthView = /*#__PURE__*/function (_Component) {
     _defineProperty(_assertThisInitialized(_this), "_handleMonthChange", function (months) {
       var onMonthChange = _this.props.onMonthChange;
 
-      var newDate = _this.state.date.add(months, 'month');
+      var newDate = _this.state.date.add(months, "month");
 
       _this.setState({
         date: newDate
       });
 
-      onMonthChange((0, _moment["default"])(newDate).startOf('month').toISOString());
+      onMonthChange((0, _moment["default"])(newDate).startOf("month").toISOString());
     });
 
     return _this;
@@ -141,13 +141,13 @@ var CalendarMonthView = /*#__PURE__*/function (_Component) {
     value: function componentDidMount() {
       this._handleWindowResize();
 
-      window.addEventListener('resize', this._handleWindowResize);
-      this.props.onMonthChange((0, _moment["default"])(this.state.date).startOf('month').toISOString());
+      window.addEventListener("resize", this._handleWindowResize);
+      this.props.onMonthChange((0, _moment["default"])(this.state.date).startOf("month").toISOString());
     }
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      window.removeEventListener('resize', this._handleWindowResize);
+      window.removeEventListener("resize", this._handleWindowResize);
     }
   }, {
     key: "render",
@@ -159,6 +159,7 @@ var CalendarMonthView = /*#__PURE__*/function (_Component) {
           smallCalendar = _this$state.smallCalendar;
       var _this$props = this.props,
           renderDay = _this$props.renderDay,
+          onClickDay = _this$props.onClickDay,
           style = _this$props.style,
           titleTextStyle = _this$props.titleTextStyle,
           dayNameTextStyle = _this$props.dayNameTextStyle,
@@ -187,6 +188,7 @@ var CalendarMonthView = /*#__PURE__*/function (_Component) {
         date: date,
         smallCalendar: smallCalendar,
         renderDay: renderDay,
+        onClickDay: onClickDay,
         dayTextStyle: dayTextStyle,
         activeDayStyle: activeDayStyle,
         inactiveDayStyle: inactiveDayStyle
