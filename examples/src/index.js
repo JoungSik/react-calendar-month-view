@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { render } from 'react-dom';
-import moment from 'moment';
-import CalendarMonthView from '../../src';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { render } from "react-dom";
+import moment from "moment";
+import CalendarMonthView from "../../src";
 
 const Title = styled.h1`
   text-align: center;
@@ -24,36 +24,36 @@ const InputsContainer = styled.div`
 export default class App extends Component {
   state = {
     showDefaultStyles: true,
-    showSampleEvents: false
+    showSampleEvents: false,
   };
 
-  _handleShowDefaultStyleChange = e => {
+  _handleShowDefaultStyleChange = (e) => {
     this.setState({ showDefaultStyles: e.target.checked });
   };
 
-  _handleShowSampleEventsChange = e => {
+  _handleShowSampleEventsChange = (e) => {
     this.setState({ showSampleEvents: e.target.checked });
   };
 
-  _renderDay = day => {
+  _renderDay = (day) => {
     const isSmallCalendar = this.calendar && this.calendar.isSmallCalendar();
     if (!isSmallCalendar) {
       const { showDefaultStyles, showSampleEvents } = this.state;
       if (!showSampleEvents) return;
       const date = moment(day);
 
-      const diff = date.diff(moment().startOf('day'));
+      const diff = date.diff(moment().startOf("day"));
       if (diff === -259200000 || diff === 259200000) {
         return (
           <div
             style={{
-              boxSizing: 'border-box',
-              height: '100%',
-              width: '100%',
+              boxSizing: "border-box",
+              height: "100%",
+              width: "100%",
               backgroundImage:
-                'url(https://farm2.staticflickr.com/1203/1475793643_d911a66735_m.jpg)',
-              backgroundSize: 'cover',
-              borderRadius: showDefaultStyles ? 0 : '10%'
+                "url(https://farm2.staticflickr.com/1203/1475793643_d911a66735_m.jpg)",
+              backgroundSize: "cover",
+              borderRadius: showDefaultStyles ? 0 : "10%",
             }}
           />
         );
@@ -68,34 +68,43 @@ export default class App extends Component {
       <div
         className="App"
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'column',
-          fontFamily: 'monospace'
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          fontFamily: "monospace",
         }}
       >
         <Title>React Calendar Month View</Title>
         <CalendarMonthView
-          ref={ref => (this.calendar = ref)}
-          onMonthChange={x => console.log(x)}
-          style={showDefaultStyles ? {} : { backgroundColor: '#222222', borderRadius: 10 }}
+          ref={(ref) => (this.calendar = ref)}
+          onMonthChange={(x) => console.log(x)}
+          style={
+            showDefaultStyles
+              ? {}
+              : { backgroundColor: "#222222", borderRadius: 10 }
+          }
           renderDay={this._renderDay}
-          titleTextStyle={showDefaultStyles ? {} : { color: 'white' }}
-          dayNameTextStyle={showDefaultStyles ? {} : { color: 'lightgray' }}
+          onClickDay={(day) => console.log(day)}
+          titleTextStyle={showDefaultStyles ? {} : { color: "white" }}
+          dayNameTextStyle={showDefaultStyles ? {} : { color: "lightgray" }}
           dayTextStyle={
             showDefaultStyles
               ? {}
               : {
-                  fontFamily: 'serif',
-                  color: 'white',
-                  borderRadius: '25%'
+                  fontFamily: "serif",
+                  color: "white",
+                  borderRadius: "25%",
                 }
           }
           activeDayStyle={
-            showDefaultStyles ? {} : { borderRadius: '10%', backgroundColor: '#314056' }
+            showDefaultStyles
+              ? {}
+              : { borderRadius: "10%", backgroundColor: "#314056" }
           }
           inactiveDayStyle={
-            showDefaultStyles ? {} : { borderRadius: '10%', backgroundColor: '#333333' }
+            showDefaultStyles
+              ? {}
+              : { borderRadius: "10%", backgroundColor: "#333333" }
           }
         />
         <InputsContainer>
@@ -121,4 +130,4 @@ export default class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById("root"));

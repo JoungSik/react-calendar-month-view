@@ -1,10 +1,14 @@
-# react-calendar-month-view [![npm version](https://badge.fury.io/js/react-calendar-month-view.svg)](https://badge.fury.io/js/react-calendar-month-view)
+# react-calendar-month-view
 
 A simple and customizable monthly calendar component view.
 
+## Original Repository
+
+[original repository](https://github.com/alwyntan/react-calendar-month-view)
+
 ## Demo & Examples
 
-[Live Demo](https://alwyntan.github.io/react-calendar-month-view/)
+[Live Demo](https://joungsik.github.io/react-calendar-month-view/)
 
 To build the examples locally, clone this repo and run:
 
@@ -41,16 +45,24 @@ yarn add react-calendar-month-view
 Use this component to display a month view of a calendar with supplied event duration indicators.
 
 ```jsx
-import CalendarMonthView from 'react-calendar-month-view';
+import CalendarMonthView from "react-calendar-month-view";
 
 class App extends Component {
   // date is given as an ISO-8601 string
-  _renderDay = date => {
+  _renderDay = (date) => {
     // return a component to render for the given date
+  };
+  _onClickDay = (day) => {
+    // onClick date number function
   };
 
   render() {
-    return <CalendarMonthView renderDay={this._renderDay} />;
+    return (
+      <CalendarMonthView
+        renderDay={this._renderDay}
+        onClickDay={this._onClickDay}
+      />
+    );
   }
 }
 ```
@@ -88,6 +100,7 @@ render() {
 | ---------------- | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | width            | string   | "90%"   | Specifies the width of the calendar (height is dynamically set and therefore cannot be customized). Examples. "500px", "90vw", "90%" |
 | renderDay        | function | null    | Callback used to render a given day                                                                                                  |
+| onClickDay       | function | null    | Callback day number click event                                                                                                      |
 | onMonthChange    | function | null    | Callback that is fired when the month is changed (Fires once on component mount)                                                     |
 | titleTextStyle   | object   | null    | Custom styles for the title text                                                                                                     |
 | dayNameTextStyle | object   | null    | Custom styles for the day names (header row of the calendar)                                                                         |
@@ -104,8 +117,20 @@ render() {
 Example:
 
 ```jsx
-const renderDay = isoDate => {
+const renderDay = (isoDate) => {
   return <div> ... </div>;
+};
+```
+
+#### onClickDay(day: string)
+
+**isoDate** is a "YYYY-MM-DD"
+
+Example:
+
+```jsx
+const onClickDay = (day) => {
+  console.log(day);
 };
 ```
 
@@ -116,7 +141,7 @@ const renderDay = isoDate => {
 Example:
 
 ```jsx
-const onMonthChange = startDate => {
+const onMonthChange = (startDate) => {
   // eg. retrieve data from gcal
 };
 ```
@@ -124,3 +149,5 @@ const onMonthChange = startDate => {
 ### Notes
 
 Use the width to control the size of the calendar component.
+
+### Deploy

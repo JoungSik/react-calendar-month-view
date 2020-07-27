@@ -73,6 +73,7 @@ export default class TableContent extends Component {
     date: PropTypes.instanceOf(moment).isRequired,
     smallCalendar: PropTypes.bool,
     renderDay: PropTypes.func,
+    onClickDay: PropTypes.func,
     dayTextStyle: PropTypes.object,
     activeDayStyle: PropTypes.object,
     inactiveDayStyle: PropTypes.object,
@@ -80,6 +81,7 @@ export default class TableContent extends Component {
 
   static defaultProps = {
     renderDay: () => {},
+    onClickDay: () => {},
   };
 
   // renders the calendar days, split by weeks per calendar row
@@ -108,6 +110,7 @@ export default class TableContent extends Component {
     const {
       smallCalendar,
       renderDay,
+      onClickDay,
       dayTextStyle,
       activeDayStyle,
       inactiveDayStyle,
@@ -130,6 +133,8 @@ export default class TableContent extends Component {
         currDayInMonth.diff(moment().startOf("day"), "days") === 0;
       let date = Object.assign({}, currDayInMonth);
 
+      const dayNumber = moment(currDayInMonth).format("yyyy-MM-DD");
+
       daysToRender.push(
         <TD
           key={currDayInMonth.format("DDMMYY")}
@@ -143,6 +148,7 @@ export default class TableContent extends Component {
             smallCalendar={smallCalendar}
             date={moment(date).format("dddd")}
             style={dayTextStyle}
+            onClick={() => onClickDay(dayNumber)}
           >
             <p>{currDayInMonth.format("D")}</p>
           </DayNumber>
